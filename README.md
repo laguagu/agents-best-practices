@@ -19,12 +19,12 @@ A directory convention where AI agent skills live as self-contained packages. Ea
 
 | Platform | Repo scope | User scope | Status |
 |----------|-----------|------------|--------|
-| **Claude Code** | `.agents/skills/` | `~/.agents/skills/`, `~/.claude/skills/` | ✅ Supported |
-| **OpenAI Codex** | `.agents/skills/` | `~/.agents/skills/` | ✅ Supported |
-| **Gemini CLI** | `.agents/skills/` | `~/.agents/skills/`, `~/.gemini/skills/` | ✅ Supported |
-| **VS Code Copilot** | `.agents/skills/` | Per config | ✅ Agent mode |
-| **Cursor** | `.agents/skills/` | Per config | ✅ Supported |
-| **JetBrains** | `.agents/skills/` | Per IDE config | ✅ Supported |
+| **Claude Code** | `.agents/skills/` | `~/.agents/skills/`, `~/.claude/skills/` | Supported |
+| **OpenAI Codex** | `.agents/skills/` | `~/.agents/skills/` | Supported |
+| **Gemini CLI** | `.agents/skills/` | `~/.agents/skills/`, `~/.gemini/skills/` | Supported |
+| **VS Code Copilot** | `.agents/skills/` | Per config | Agent mode |
+| **Cursor** | `.agents/skills/` | Per config | Supported |
+| **JetBrains** | `.agents/skills/` | Per IDE config | Supported |
 
 ## The Instruction File Hierarchy 📋
 
@@ -37,38 +37,28 @@ A directory convention where AI agent skills live as self-contained packages. Ea
 
 > **Key principle:** AGENTS.md is the canonical source. CLAUDE.md and GEMINI.md are adapters that extend it — not independent instruction systems.
 
-See [docs/skill-vs-instructions.md](docs/skill-vs-instructions.md) for the full decision tree.
-
-## Quick Start: Your First Skill 🚀
-
-```yaml
----
-name: my-skill
-description: >
-  What this skill does. Use when [specific trigger contexts].
-  Activates on: "keyword1", "keyword2".
----
-
-# My Skill
-
-## Instructions
-1. Do this first
-2. Then do this
-
-## Gotchas
-- Non-obvious fact that prevents mistakes
-```
-
-Save as `.agents/skills/my-skill/SKILL.md`. See [templates/SKILL.md](templates/SKILL.md) for the full template.
-
 ## What's in This Repo 🗂️
 
 ```
-templates/     📄 Starter templates for AGENTS.md, CLAUDE.md, GEMINI.md, SKILL.md
-docs/          📖 Guides on cross-platform support, trigger evaluation, scripts
-examples/      🧪 Example skills (good and intentionally bad for testing)
-.agents/       ⚡ Working skill: improving-skills (audits other skills & instruction files)
+.agents/skills/
+  improving-skills/    Audits skills and instruction files against the spec
+  skill-creator/       Creates new skills through a draft-test-iterate loop
+templates/             Starter templates for AGENTS.md, CLAUDE.md, GEMINI.md, SKILL.md
 ```
+
+### Skills
+
+**improving-skills** — Audit existing skills against [agentskills.io](https://agentskills.io) specification. Checks frontmatter compliance, description quality, content anti-patterns, and cross-platform compatibility. Also audits AGENTS.md, CLAUDE.md, and GEMINI.md for bloat.
+
+**skill-creator** — Create new `.agents/skills/` skills through a structured workflow: capture intent, write SKILL.md, test with real prompts, iterate until satisfied.
+
+### Templates
+
+Starter files you can copy into your project:
+- `templates/SKILL.md` — Full skill template with frontmatter and body structure
+- `templates/AGENTS.md` — Project instruction template
+- `templates/CLAUDE.md` — Claude Code adapter template
+- `templates/GEMINI.md` — Gemini CLI adapter template
 
 ## Key Principles ✨
 
@@ -94,7 +84,7 @@ examples/      🧪 Example skills (good and intentionally bad for testing)
 
 ### Community
 - [mgechev/skills-best-practices](https://github.com/mgechev/skills-best-practices) — Skill development guide
-- [openai/skills](https://github.com/openai/skills) — 43 curated Codex skills
+- [openai/skills](https://github.com/openai/skills) — Curated Codex skills
 
 ## License
 

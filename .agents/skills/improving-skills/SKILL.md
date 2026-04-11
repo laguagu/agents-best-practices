@@ -283,8 +283,6 @@ For descriptions scoring < 4/5, run an optimization loop:
 Watch for overfitting: train improving but validation dropping, description
 growing toward 1024 chars, specific test keywords leaking into description.
 
-For detailed evaluation methodology, see [docs/trigger-evaluation.md](../../docs/trigger-evaluation.md).
-
 ## Gotchas
 
 - `description` on 1024 merkin kovakatto — laske merkit ennen tallennusta pitkiä kuvauksia kirjoittaessa

@@ -1,3 +1,0 @@
-Internal notes about this skill.
-This file is intentionally NOT referenced from SKILL.md.
-It exists as an example of an undiscoverable file anti-pattern.

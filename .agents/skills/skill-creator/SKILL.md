@@ -179,8 +179,6 @@ If the skill doesn't trigger reliably:
 Watch for overfitting: train improving but validation dropping, description
 growing toward 1024 chars, specific test keywords leaking into description.
 
-For detailed evaluation methodology, see [docs/trigger-evaluation.md](../../docs/trigger-evaluation.md).
-
 ## Anti-patterns to avoid
 
 | Anti-pattern | Fix |

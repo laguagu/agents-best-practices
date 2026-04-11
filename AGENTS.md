@@ -4,10 +4,8 @@ This repository contains best practices and templates for the `.agents/skills/` 
 
 ## Structure
 
+- `.agents/skills/` — Working skills (improving-skills, skill-creator)
 - `templates/` — Starter templates (AGENTS.md, CLAUDE.md, GEMINI.md, SKILL.md)
-- `docs/` — Guides and reference documentation
-- `examples/` — Example skills for learning and testing
-- `.agents/skills/` — Working skills (improving-skills)
 
 ## Conventions
 
@@ -19,8 +17,8 @@ This repository contains best practices and templates for the `.agents/skills/` 
 
 ## Gotchas
 
-- `examples/bad-skill/` is intentionally flawed — do NOT fix it, it's test data for improving-skills audits
-- This repo is a governance/best-practices resource, not a skill collection — it practices what it preaches
+- This repo is a governance/best-practices resource — it practices what it preaches
+- Skills must be self-contained — no references to files outside the skill directory
 
 ## When Editing Skills
 
@@ -29,9 +27,3 @@ This repository contains best practices and templates for the `.agents/skills/` 
 3. Verify description stays under 1024 characters
 4. Test trigger accuracy with at least 3 manual prompts
 5. Ensure all referenced files exist
-
-## File Decisions
-
-- Persistent, broad rule (style, testing, deploy) goes in AGENTS.md / CLAUDE.md
-- On-demand expertise, workflow, checklist goes in a skill
-- If AGENTS.md grows past 100 lines, move specialized content to skills
