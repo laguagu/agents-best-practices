@@ -66,7 +66,7 @@ mechanical violations automatically. Focus manual review on description quality 
 
 #### Structure validation
 - [ ] SKILL.md exists at skill root
-- [ ] SKILL.md body under 500 lines
+- [ ] SKILL.md body under 500 lines (~5,000 tokens)
 - [ ] File references use relative paths with forward slashes
 - [ ] All referenced files actually exist
 - [ ] No deeply nested reference chains (A → B → C)
@@ -220,11 +220,10 @@ follows the same principles regardless of platform.
 - Self-evident practices like "write clean code"
 
 ### Platform-specific adapters
-- AGENTS.md is the canonical, vendor-neutral instruction file
-- Platform adapters (CLAUDE.md, GEMINI.md, etc.) should import shared
-  instructions (e.g., `@AGENTS.md`) and add only platform-specific rules
-- Don't duplicate content across files — if the same rule appears in
-  multiple files, move it to AGENTS.md
+- [ ] AGENTS.md is the canonical, vendor-neutral instruction file
+- [ ] Adapters (CLAUDE.md, GEMINI.md, etc.) import shared instructions
+      via `@`-imports (e.g., `@AGENTS.md`) and add only platform-specific rules
+- [ ] No duplicated content across files — shared rules belong in AGENTS.md
 
 ### Skills vs. instruction files
 Instruction files load every session. Skills load on demand.
