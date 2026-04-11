@@ -184,61 +184,53 @@ For repo-scope: `.agents/skills/` relative to project root.
 
 ## Instruction file audit
 
-Audit AGENTS.md, CLAUDE.md, and GEMINI.md for quality and consistency.
+Audit agent instruction files (AGENTS.md, CLAUDE.md, GEMINI.md, CODEX.md, etc.)
+for quality and consistency. These rules apply universally — every instruction file
+follows the same principles regardless of platform.
 
-### AGENTS.md checklist
+### Universal checklist
 - [ ] Exists and is not empty
 - [ ] Under ~100 lines (move specialized content to skills if longer)
+- [ ] Concise — every line must pass: "Would removing this cause mistakes?" If not, cut it
 - [ ] Contains only rules agents can't infer from code
 - [ ] No content that should be a skill (workflows, checklists, multi-step procedures)
 - [ ] Gotchas section present (highest-value content)
 - [ ] No stale information (outdated commands, removed tools)
 - [ ] No rigid ALWAYS/NEVER without reasoning
-
-### CLAUDE.md checklist
-- [ ] Concise — every line must pass: "Would removing this cause mistakes?" If not, cut it
-- [ ] Only includes what agents can't infer from reading code
-- [ ] No standard language conventions the agent already knows
-- [ ] No detailed API docs (link instead), no tutorials, no file-by-file descriptions
-- [ ] Uses `@`-imports for shared instructions (`@AGENTS.md`, `@README.md`)
-- [ ] Gotchas section present (non-obvious behaviors, environment quirks)
 - [ ] If agent ignores a rule → file is probably too long, not the rule too weak
-- [ ] If agent asks questions answered in CLAUDE.md → phrasing may be ambiguous
+- [ ] If agent asks questions answered in the file → phrasing may be ambiguous
 - [ ] Emphasis (`IMPORTANT`, `YOU MUST`) used sparingly for critical rules
-- [ ] Does not duplicate AGENTS.md content (adapts/extends it)
 
-#### CLAUDE.md should include
-- Bash commands Claude can't guess
+### Should include
+- Shell commands the agent can't guess
 - Code style rules that differ from defaults
 - Testing instructions and preferred runners
 - Repo etiquette (branch naming, PR conventions)
 - Architecture decisions specific to the project
 - Dev environment quirks (required env vars)
-- Common gotchas
+- Common gotchas and non-obvious behaviors
 
-#### CLAUDE.md should NOT include
-- Anything Claude can figure out by reading code
-- Standard language conventions
+### Should NOT include
+- Anything the agent can figure out by reading code
+- Standard language conventions the agent already knows
 - Detailed API documentation (link to docs instead)
 - Information that changes frequently
 - Long explanations or tutorials
 - File-by-file descriptions of the codebase
 - Self-evident practices like "write clean code"
 
-#### When to use skills instead of CLAUDE.md
-CLAUDE.md loads every session. Skills load on demand. If content is only
-relevant sometimes (domain knowledge, specialized workflows), make it a skill.
+### Platform-specific adapters
+- AGENTS.md is the canonical, vendor-neutral instruction file
+- Platform adapters (CLAUDE.md, GEMINI.md, etc.) should import shared
+  instructions (e.g., `@AGENTS.md`) and add only platform-specific rules
+- Don't duplicate content across files — if the same rule appears in
+  multiple files, move it to AGENTS.md
 
-### GEMINI.md checklist
-- [ ] Does not duplicate AGENTS.md content
-- [ ] Contains only Gemini-specific additions
-- [ ] If same instruction is in both CLAUDE.md and GEMINI.md → move to AGENTS.md
-
-### Decision tree: skill vs. instruction file
-- Persistent broad rule (style, testing, deploy) → AGENTS.md / CLAUDE.md
+### Skills vs. instruction files
+Instruction files load every session. Skills load on demand.
+- Persistent broad rule (style, testing, deploy) → instruction file
 - On-demand expertise, workflow, checklist → skill
-- Platform-specific convention → CLAUDE.md / GEMINI.md adapter
-- Content only relevant sometimes → skill (not CLAUDE.md)
+- Content only relevant sometimes → skill (not instruction file)
 - If instruction file grows past ~100 lines → migrate workflows to skills
 
 ## Cross-agent compatibility review
@@ -263,9 +255,9 @@ relevant sometimes (domain knowledge, specialized workflows), make it a skill.
 - [ ] No platform-specific assumptions without `compatibility` field
 
 ### Migration: client-specific → `.agents/`
-If skills exist in client-specific paths (`~/.claude/skills/`, `~/.codex/skills/`):
+If skills exist in legacy client-specific paths (`~/.claude/skills/`, `~/.gemini/skills/`):
 1. Move to `~/.agents/skills/`
-2. Create symlinks/junctions from old locations
+2. Create symlinks/junctions from old locations if needed
 3. Verify skills load on each target platform
 
 ## Description optimization
