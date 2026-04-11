@@ -1,4 +1,4 @@
-# `.agents`-First Best Practices 🤖
+# Agent Skills Best Practices 🤖
 
 > Vendor-neutral best practices for the `.agents/skills/` ecosystem — the cross-platform standard for AI agent skills.
 
