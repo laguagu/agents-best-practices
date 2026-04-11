@@ -27,7 +27,7 @@ Structured workflow for auditing and improving agent skills, instruction files
    Automated: run `skills-ref validate <skill-path>` if available
    ([agentskills/skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref)).
 3. **Evaluate description** quality (trigger coverage, third person, specificity)
-4. **Scan content** for anti-patterns (see [references/anti-patterns.md](references/anti-patterns.md))
+4. **Scan content** for anti-patterns (see [anti-patterns.md](anti-patterns.md))
 5. **Generate** a prioritized improvement report (Step 5 template)
 
 ## Full audit workflow
@@ -125,7 +125,7 @@ The description is the routing key — it determines whether the skill triggers.
 - [ ] Reasoning explained ("Do X because Y") rather than rigid "ALWAYS/NEVER"
 
 #### Anti-patterns (quick scan)
-See [references/anti-patterns.md](references/anti-patterns.md) for full list.
+See [anti-patterns.md](anti-patterns.md) for full list.
 
 - [ ] No time-sensitive information (dates, versions that go stale)
 - [ ] Consistent terminology throughout
@@ -270,30 +270,20 @@ If skills exist in client-specific paths (`~/.claude/skills/`, `~/.codex/skills/
 
 ## Description optimization
 
-At startup, agents load only `name` and `description` (~50-100 tokens each).
-The description carries the entire burden of triggering. Agents only consult
-skills for tasks they can't easily handle alone.
+The description is the routing key. At startup agents load only `name` + `description`
+(~50-100 tokens each). Write in third person, imperative framing ("Use when..."),
+be pushy about trigger contexts, stay under 1024 characters.
 
-### Writing effective descriptions
-- **Third person**: "Processes files" not "I process files"
-- **Imperative framing**: "Use when..." tells the agent when to act
-- **Be pushy**: explicitly list contexts, including indirect mentions
-- **Under 1024 characters**: hard limit in specification
-- **Focus on user intent**: what user wants to achieve, not implementation
-
-### Optimization loop
-For descriptions scoring < 4/5:
+For descriptions scoring < 4/5, run an optimization loop:
 1. Create 20 eval queries (10 should-trigger, 10 should-not-trigger)
-2. Split 60% train / 40% validation
-3. Iterate: identify failures in train set → revise → test (up to 5 iterations)
+2. Split 60% train / 40% validation — run each query 3 times (nondeterministic)
+3. Iterate on train set failures, revise description (up to 5 iterations)
 4. Select best by **validation** score to avoid overfitting
 
-Automated: use `skill-creator`'s `scripts/run_loop.py` and `scripts/improve_description.py`.
+Watch for overfitting: train improving but validation dropping, description
+growing toward 1024 chars, specific test keywords leaking into description.
 
-### Avoiding overfitting
-Signs: train score improving but validation dropping, description growing
-toward 1024 chars, keywords from specific test queries appearing.
-Prevention: generalize from feedback, select by validation score.
+For detailed evaluation methodology, see [docs/trigger-evaluation.md](../../docs/trigger-evaluation.md).
 
 ## Gotchas
 

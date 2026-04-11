@@ -17,6 +17,11 @@ This repository contains best practices and templates for the `.agents/skills/` 
 - Write descriptions in third person with explicit trigger contexts
 - Every skill must pass: name matches directory, description under 1024 chars
 
+## Gotchas
+
+- `examples/bad-skill/` is intentionally flawed — do NOT fix it, it's test data for improving-skills audits
+- This repo is a governance/best-practices resource, not a skill collection — it practices what it preaches
+
 ## When Editing Skills
 
 1. Read the current SKILL.md before making changes

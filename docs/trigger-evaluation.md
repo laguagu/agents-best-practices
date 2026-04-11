@@ -47,7 +47,8 @@ Run each query 3 times (model behavior is nondeterministic).
 - Should-trigger passes if trigger rate > 0.5
 - Should-not-trigger passes if trigger rate < 0.5
 
-For automated testing, use `skill-creator`'s `scripts/run_loop.py`.
+For automated testing, see the optimization loop in the
+[skill-creator](../.agents/skills/skill-creator/SKILL.md) skill.
 
 ## The Optimization Loop
 
