@@ -5,7 +5,7 @@ This repository contains best practices and templates for the `.agents/skills/` 
 ## Structure
 
 - `.agents/skills/` — Working skills (improving-skills, skill-creator)
-- `templates/` — Starter templates (AGENTS.md, CLAUDE.md, GEMINI.md, SKILL.md)
+- `templates/` — Starter templates (AGENTS.md, CLAUDE.md, SKILL.md)
 
 ## Conventions
 
