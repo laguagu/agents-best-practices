@@ -285,12 +285,12 @@ growing toward 1024 chars, specific test keywords leaking into description.
 
 ## Gotchas
 
-- `description` on 1024 merkin kovakatto — laske merkit ennen tallennusta pitkiä kuvauksia kirjoittaessa
-- `name` on vastattava hakemiston nimeä tarkasti — isokirjaimet, alaviivat tai välilyönnit rikkovat discoveryn
-- Batch-auditoinnissa `~/.agents/skills/` on käyttäjätason oletus, `.agents/skills/` repotason — älä sekoita näitä
-- Symlinkit `.claude/skills/` → `.agents/skills/` voivat aiheuttaa duplikaattilöytöjen raportoinnin
-- Instruction file -audit (AGENTS.md/CLAUDE.md) on erillinen työvaihe skill-auditoinnista — älä yhdistä samaan raporttiin
-- `allowed-tools` on merkitty Experimental spesifikaatiossa — älä lisää rutiininomaisesti, tuki vaihtelee alustoittain
+- `description` has a hard cap of 1024 characters — count characters before saving when writing long descriptions
+- `name` must match the directory name exactly — uppercase letters, underscores, or spaces break discovery
+- In batch audits, `~/.agents/skills/` is the user-scope default, `.agents/skills/` is repo-scope — don't mix them up
+- Symlinks from `.claude/skills/` → `.agents/skills/` can cause duplicate discovery reports
+- Instruction file audit (AGENTS.md/CLAUDE.md) is a separate workflow from skill audit — don't combine them into the same report
+- `allowed-tools` is marked Experimental in the spec — don't add routinely, support varies across platforms
 
 ## Iterating after audit
 
