@@ -190,18 +190,51 @@ Audit AGENTS.md, CLAUDE.md, and GEMINI.md for quality and consistency.
 - [ ] No stale information (outdated commands, removed tools)
 - [ ] No rigid ALWAYS/NEVER without reasoning
 
-### CLAUDE.md / GEMINI.md checklist
-- [ ] Identifies itself as an adapter (not a standalone instruction system)
+### CLAUDE.md checklist
+- [ ] Concise — every line must pass: "Would removing this cause mistakes?" If not, cut it
+- [ ] Only includes what agents can't infer from reading code
+- [ ] No standard language conventions the agent already knows
+- [ ] No detailed API docs (link instead), no tutorials, no file-by-file descriptions
+- [ ] Uses `@`-imports for shared instructions (`@AGENTS.md`, `@README.md`)
+- [ ] Gotchas section present (non-obvious behaviors, environment quirks)
+- [ ] If agent ignores a rule → file is probably too long, not the rule too weak
+- [ ] If agent asks questions answered in CLAUDE.md → phrasing may be ambiguous
+- [ ] Emphasis (`IMPORTANT`, `YOU MUST`) used sparingly for critical rules
+- [ ] Does not duplicate AGENTS.md content (adapts/extends it)
+
+#### CLAUDE.md should include
+- Bash commands Claude can't guess
+- Code style rules that differ from defaults
+- Testing instructions and preferred runners
+- Repo etiquette (branch naming, PR conventions)
+- Architecture decisions specific to the project
+- Dev environment quirks (required env vars)
+- Common gotchas
+
+#### CLAUDE.md should NOT include
+- Anything Claude can figure out by reading code
+- Standard language conventions
+- Detailed API documentation (link to docs instead)
+- Information that changes frequently
+- Long explanations or tutorials
+- File-by-file descriptions of the codebase
+- Self-evident practices like "write clean code"
+
+#### When to use skills instead of CLAUDE.md
+CLAUDE.md loads every session. Skills load on demand. If content is only
+relevant sometimes (domain knowledge, specialized workflows), make it a skill.
+
+### GEMINI.md checklist
 - [ ] Does not duplicate AGENTS.md content
-- [ ] Contains only platform-specific additions
-- [ ] CLAUDE.md uses `@`-imports for shared instructions
-- [ ] If same instruction is in both adapters → move to AGENTS.md
+- [ ] Contains only Gemini-specific additions
+- [ ] If same instruction is in both CLAUDE.md and GEMINI.md → move to AGENTS.md
 
 ### Decision tree: skill vs. instruction file
-- Persistent broad rule (style, testing, deploy) → AGENTS.md
+- Persistent broad rule (style, testing, deploy) → AGENTS.md / CLAUDE.md
 - On-demand expertise, workflow, checklist → skill
 - Platform-specific convention → CLAUDE.md / GEMINI.md adapter
-- If instruction file grows past ~100 lines → migrate content to skills
+- Content only relevant sometimes → skill (not CLAUDE.md)
+- If instruction file grows past ~100 lines → migrate workflows to skills
 
 ## Cross-agent compatibility review
 
@@ -232,17 +265,30 @@ If skills exist in client-specific paths (`~/.claude/skills/`, `~/.codex/skills/
 
 ## Description optimization
 
-For descriptions scoring < 4/5, use `skill-creator`'s automated optimization:
-- `scripts/run_loop.py` — full train/validation eval loop
-- `scripts/improve_description.py` — iterative description improvement
+At startup, agents load only `name` and `description` (~50-100 tokens each).
+The description carries the entire burden of triggering. Agents only consult
+skills for tasks they can't easily handle alone.
 
-Manual approach summary:
+### Writing effective descriptions
+- **Third person**: "Processes files" not "I process files"
+- **Imperative framing**: "Use when..." tells the agent when to act
+- **Be pushy**: explicitly list contexts, including indirect mentions
+- **Under 1024 characters**: hard limit in specification
+- **Focus on user intent**: what user wants to achieve, not implementation
+
+### Optimization loop
+For descriptions scoring < 4/5:
 1. Create 20 eval queries (10 should-trigger, 10 should-not-trigger)
 2. Split 60% train / 40% validation
 3. Iterate: identify failures in train set → revise → test (up to 5 iterations)
 4. Select best by **validation** score to avoid overfitting
 
-See [references/description-optimization.md](references/description-optimization.md) for details.
+Automated: use `skill-creator`'s `scripts/run_loop.py` and `scripts/improve_description.py`.
+
+### Avoiding overfitting
+Signs: train score improving but validation dropping, description growing
+toward 1024 chars, keywords from specific test queries appearing.
+Prevention: generalize from feedback, select by validation score.
 
 ## Iterating after audit
 
