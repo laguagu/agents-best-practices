@@ -24,6 +24,8 @@ Structured workflow for auditing and improving agent skills, instruction files
 
 1. **Read** the skill's SKILL.md and list all files in the directory
 2. **Check frontmatter** against the specification (Step 2 below)
+   Automated: run `skills-ref validate <skill-path>` if available
+   ([agentskills/skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref)).
 3. **Evaluate description** quality (trigger coverage, third person, specificity)
 4. **Scan content** for anti-patterns (see [references/anti-patterns.md](references/anti-patterns.md))
 5. **Generate** a prioritized improvement report (Step 5 template)
@@ -41,6 +43,9 @@ Record:
 - Any unusual files or structures
 
 ### Step 2: Specification compliance
+
+If `skills-ref` is installed, run `skills-ref validate <skill-path>` first to catch
+mechanical violations automatically. Focus manual review on description quality and content.
 
 #### Frontmatter validation
 - [ ] `name` field:
@@ -289,6 +294,15 @@ Automated: use `skill-creator`'s `scripts/run_loop.py` and `scripts/improve_desc
 Signs: train score improving but validation dropping, description growing
 toward 1024 chars, keywords from specific test queries appearing.
 Prevention: generalize from feedback, select by validation score.
+
+## Gotchas
+
+- `description` on 1024 merkin kovakatto — laske merkit ennen tallennusta pitkiä kuvauksia kirjoittaessa
+- `name` on vastattava hakemiston nimeä tarkasti — isokirjaimet, alaviivat tai välilyönnit rikkovat discoveryn
+- Batch-auditoinnissa `~/.agents/skills/` on käyttäjätason oletus, `.agents/skills/` repotason — älä sekoita näitä
+- Symlinkit `.claude/skills/` → `.agents/skills/` voivat aiheuttaa duplikaattilöytöjen raportoinnin
+- Instruction file -audit (AGENTS.md/CLAUDE.md) on erillinen työvaihe skill-auditoinnista — älä yhdistä samaan raporttiin
+- `allowed-tools` on merkitty Experimental spesifikaatiossa — älä lisää rutiininomaisesti, tuki vaihtelee alustoittain
 
 ## Iterating after audit
 

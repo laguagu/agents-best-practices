@@ -78,6 +78,18 @@ description: >
   form filling, or PDF manipulation, even if they don't explicitly say "PDF".
 ```
 
+### Unnecessary allowed-tools
+**Problem:** Adding `allowed-tools` to every skill without need — field is Experimental.
+```yaml
+# Bad — no benefit, adds noise
+allowed-tools: "Read Glob Grep Edit Write Bash"
+```
+**Fix:** Only use when a skill needs specific pre-approved tools (e.g., destructive operations):
+```yaml
+# Good — only when the skill genuinely needs pre-approval
+allowed-tools: "Bash(git:*) Bash(npm:*)"
+```
+
 ## Content anti-patterns
 
 ### Over-explaining basics
@@ -151,6 +163,25 @@ ALWAYS filter test accounts. NEVER skip this step.
 <!-- Good -->
 Filter test accounts because production reports include them otherwise,
 which inflates revenue metrics by ~15%.
+```
+
+### Bloated instruction files
+**Problem:** AGENTS.md/CLAUDE.md grows past ~100 lines, agent starts ignoring rules.
+```markdown
+<!-- Bad — too much in one file -->
+# Code style (20 lines)
+# Testing (15 lines)
+# Deployment checklist (40 lines)
+# API integration guide (50 lines)
+# Migration procedure (30 lines)
+```
+**Fix:** Keep only persistent broad rules, move workflows to skills:
+```markdown
+<!-- Good — lean instruction file -->
+# Code style (20 lines)
+# Testing (15 lines)
+# Gotchas (10 lines)
+<!-- Deployment, API integration, migration → .agents/skills/ -->
 ```
 
 ### Magic constants
