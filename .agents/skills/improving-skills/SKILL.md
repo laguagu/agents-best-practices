@@ -282,6 +282,7 @@ growing toward 1024 chars, specific test keywords leaking into description.
 - Symlinks from `.claude/skills/` → `.agents/skills/` can cause duplicate discovery reports
 - Instruction file audit (AGENTS.md/CLAUDE.md) is a separate workflow from skill audit — don't combine them into the same report
 - `allowed-tools` is marked Experimental in the spec — don't add routinely, support varies across platforms
+- **Root `skills/` breaks discovery**: Moving project skills from `.agents/skills/` to a root `skills/` directory breaks Claude Code `/skills` discovery and Codex auto-discovery — both scan `.agents/skills/` (repo scope) directly. Root `skills/` only works as AGENTS.md `@include` context, not as a discoverable/invokable skill. Keep skills in `.agents/skills/<name>/`. To auto-load a skill every session, add `@.agents/skills/<name>/SKILL.md` to AGENTS.md.
 
 ## Iterating after audit
 
