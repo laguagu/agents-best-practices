@@ -24,8 +24,8 @@ Structured workflow for auditing and improving agent skills, instruction files
 
 1. **Read** the skill's SKILL.md and list all files in the directory
 2. **Check frontmatter** against the specification (Step 2 below)
-   Automated: run `skills-ref validate <skill-path>` if available
-   ([agentskills/skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref)).
+   Automated: run `skills-ref validate <skill-path>` if installed (reference
+   implementation for demonstration — [agentskills/skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref)).
 3. **Evaluate description** quality (trigger coverage, third person, specificity)
 4. **Scan content** for anti-patterns (see [anti-patterns.md](anti-patterns.md))
 5. **Generate** a prioritized improvement report (Step 5 template)
