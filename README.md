@@ -22,13 +22,6 @@ Supported by **Claude Code**, **OpenAI Codex**, **Gemini CLI**, **VS Code Copilo
 - **improving-skills** — Audits skills against the [agentskills.io](https://agentskills.io) spec: frontmatter, description quality, anti-patterns, cross-platform compatibility. Also audits AGENTS.md and CLAUDE.md for bloat.
 - **skill-creator** — Creates new skills through a draft-test-iterate workflow.
 
-### Templates
-
-Starter files to copy into your project:
-- `templates/SKILL.md` — Skill template with frontmatter and body structure
-- `templates/AGENTS.md` — Project instruction template (canonical, vendor-neutral)
-- `templates/CLAUDE.md` — Claude Code adapter (`@AGENTS.md` import)
-
 ## Installing Skills 🛠️
 
 Drop a skill directory at one of these paths. Agents discover it automatically.

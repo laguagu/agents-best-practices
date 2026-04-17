@@ -1,11 +1,10 @@
 # Agent Instructions
 
-This repository contains best practices and templates for the `.agents/skills/` ecosystem.
+This repository contains best practices for the `.agents/skills/` ecosystem.
 
 ## Structure
 
-- `.agents/skills/` — Working skills (improving-skills, skill-creator)
-- `templates/` — Starter templates (AGENTS.md, CLAUDE.md, SKILL.md)
+- `.agents/skills/` — Working skills (improving-skills, skill-creator, skill-finder)
 
 ## Conventions
 
