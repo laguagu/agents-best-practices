@@ -10,7 +10,6 @@ description: >
   "create a skill for X", "turn this into a skill", even if they don't
   explicitly mention "skill" but describe a repeatable workflow they want
   to automate.
-compatibility: "Claude Code, Codex, Gemini CLI — any agentskills.io-compatible platform"
 ---
 
 # Skill Creator

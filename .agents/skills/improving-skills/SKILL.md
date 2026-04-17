@@ -12,7 +12,6 @@ description: >
   quality", "skill audit", "fix skill description", "skill compliance", "check
   CLAUDE.md", "audit AGENTS.md", even if the user does not explicitly mention
   "audit" or "best practices".
-compatibility: "Claude Code, Codex, Gemini CLI — any agentskills.io-compatible platform"
 ---
 
 # Improving Skills — Audit & Optimization Guide

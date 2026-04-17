@@ -8,7 +8,6 @@ description: >
   asks "find me a skill for X", "is there an existing skill for Y", "how do
   I do Z", or expresses a capability gap — even if they do not explicitly
   mention "skill". Run BEFORE skill-creator to avoid duplicating work.
-compatibility: "Claude Code, Codex, Gemini CLI — any agentskills.io-compatible platform"
 license: Apache-2.0
 ---
 
@@ -69,8 +68,8 @@ the user's task verb.
 Format each recommendation as:
 
 ```
-- **owner/skill-name** — one-line description
-  https://officialskills.sh/owner/skills/skill-name
+owner/skill-name — one-line description
+https://officialskills.sh/owner/skills/skill-name
 ```
 
 Present 3-5 candidates. Lead with the single best match; list alternatives
@@ -104,5 +103,6 @@ and not on skills.sh, the user needs to create one.
 ## Refresh
 
 `references/official-skills.md` is a static snapshot. To refresh, replace
-its content with an updated curated list from a source of your choice,
-then update the header block (date, skill count).
+its content with an updated curated list. Preserve the "Source & License"
+header block and keep `references/LICENSE-source.md` in sync with the
+upstream project's LICENSE.
