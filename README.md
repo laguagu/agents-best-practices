@@ -37,7 +37,7 @@ Drop a skill directory at one of these paths. Agents discover it automatically.
 |---|---|---|
 | **Repo** (team-wide, committed) | `.agents/skills/<name>/` | Claude Code, Codex, Gemini CLI |
 | **User** (global, vendor-neutral) | `~/.agents/skills/<name>/` | All agentskills.io-compatible tools |
-| **User** (per-platform) | `~/.claude/skills/`, `~/.codex/skills/`, `~/.gemini/skills/` | Platform-specific alternatives |
+| **User** (per-platform) | `~/.claude/skills/`, `~/.gemini/skills/` | Platform-specific alternatives |
 
 ### Try this repo's skills
 
@@ -47,15 +47,7 @@ cp -r agents-best-practices/.agents/skills/improving-skills ~/.agents/skills/
 cp -r agents-best-practices/.agents/skills/skill-creator ~/.agents/skills/
 ```
 
-Then invoke in any compatible agent — e.g. `/improving-skills <skill-path>` in Claude Code.
-
-### Codex shortcuts
-
-Codex bundles two built-in skills:
-- `$skill-creator` — scaffold a new skill
-- `$skill-installer <name>` — install a curated skill
-
-Codex scans (in order): `$CWD/.agents/skills`, `$REPO_ROOT/.agents/skills`, `$HOME/.agents/skills`, `/etc/codex/skills`. See [Codex skills docs](https://developers.openai.com/codex/skills) and [reusable skills guide](https://developers.openai.com/codex/use-cases/reusable-codex-skills).
+Then invoke in any compatible agent — e.g. `/improving-skills <skill-path>` in Claude Code, or `$improving-skills` in Codex.
 
 ## Key Principles ✨
 
