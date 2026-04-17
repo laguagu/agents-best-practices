@@ -216,6 +216,7 @@ growing toward 1024 chars, specific test keywords leaking into description.
 - `references/` is opt-in — don't create empty placeholder directories
 - Keep SKILL.md flat by default: SKILL.md + scripts/ if needed, references/ only when SKILL.md would exceed ~300 lines
 - On Windows, use directory junctions (`mklink /J`) to sync between `~/.agents/skills/` and platform-specific paths like `~/.claude/skills/`
+- Ground behavioral claims in sources — if you write "X is experimental" or "Y silently truncates at N chars", link the spec/README or code. Unverified claims rot as ecosystems evolve and mislead future readers
 
 ## Cross-platform compatibility
 
