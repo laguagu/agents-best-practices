@@ -137,7 +137,8 @@ Check results, validate output, confirm correctness.
 
 ### Step 3: Test with real usage
 
-Create 2-3 realistic test prompts — the kind of thing a real user would say.
+Create 2-3 realistic test prompts to smoke-test the workflow end-to-end.
+(Separate from Step 5's 20 eval queries, which test description triggering.)
 Share them with the user for review before running.
 
 Run the skill against each prompt and observe:
@@ -205,6 +206,7 @@ growing toward 1024 chars, specific test keywords leaking into description.
 - [ ] All referenced files exist and are reachable from SKILL.md
 - [ ] 2-3 test prompts run and results verified
 - [ ] Description triggers correctly (not too narrow or too broad)
+- [ ] `compatibility` field set if the skill targets multiple platforms
 
 ## Gotchas
 
