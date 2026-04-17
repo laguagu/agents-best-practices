@@ -9,6 +9,7 @@ description: >
   I do Z", or expresses a capability gap — even if they do not explicitly
   mention "skill". Run BEFORE skill-creator to avoid duplicating work.
 compatibility: "Claude Code, Codex, Gemini CLI — any agentskills.io-compatible platform"
+license: Apache-2.0
 ---
 
 # Skill Finder
