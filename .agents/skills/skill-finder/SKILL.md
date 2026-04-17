@@ -103,6 +103,5 @@ and not on skills.sh, the user needs to create one.
 ## Refresh
 
 `references/official-skills.md` is a static snapshot. To refresh, replace
-its content with an updated curated list. Preserve the "Source & License"
-header block and keep `references/LICENSE-source.md` in sync with the
-upstream project's LICENSE.
+its content with an updated curated list from a source of your choice,
+then update the header (date, skill count).

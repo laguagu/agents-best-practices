@@ -70,3 +70,5 @@ Then invoke in any compatible agent — e.g. `/skill-finder <capability>` in Cla
 ## License 📄
 
 Apache-2.0 — see [LICENSE](LICENSE)
+
+The skill list in [`skill-finder/references/official-skills.md`](.agents/skills/skill-finder/references/official-skills.md) is derived from [VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) (MIT License, Copyright © 2025 VoltAgent).

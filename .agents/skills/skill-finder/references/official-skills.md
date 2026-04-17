@@ -5,15 +5,6 @@ owner name, domain keyword, or task verb.
 
 Last updated: 2026-04-17
 
-## Source & License
-
-This list is derived from the awesome-agent-skills project by VoltAgent
-(MIT License, Copyright (c) 2025 VoltAgent). Full license text is in
-[`LICENSE-source.md`](LICENSE-source.md). Original source:
-https://github.com/VoltAgent/awesome-agent-skills
-
----
-
 ## Official Claude Skills
 
 anthropics/docx — Create, edit, and analyze Word documents — https://officialskills.sh/anthropics/skills/docx
