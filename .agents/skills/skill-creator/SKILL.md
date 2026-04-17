@@ -20,6 +20,7 @@ draft-test-iterate loop.
 
 ## Quick start
 
+0. **Check first** — run `skill-finder <capability>` to search existing official skills. Only create new if nothing fits.
 1. **Capture intent** — what should the skill do and when should it trigger?
 2. **Write SKILL.md** — frontmatter + instructions following the spec
 3. **Test** — run 2-3 realistic prompts, observe behavior

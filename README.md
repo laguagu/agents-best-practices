@@ -1,6 +1,6 @@
 # Agent Skills Best Practices 🤖
 
-> Vendor-neutral best practices for the `.agents/skills/` ecosystem — the cross-platform standard for AI agent skills.
+> Vendor-neutral best practices for the `.agents/skills/` ecosystem — governance and discovery tools for AI agent skills.
 
 ## What is `.agents/skills/`? 📂
 
@@ -15,14 +15,19 @@ A directory convention where AI agent skills live as self-contained packages.
 
 Supported by **Claude Code**, **OpenAI Codex**, **Gemini CLI**, **VS Code Copilot**, **Cursor**, and **JetBrains**.
 
-## What's in This Repo 🗂️
+## Skills in This Repo 🛠️
 
-### Skills
+This repo ships **governance** tooling + **discovery** tooling:
 
-- **improving-skills** — Audits skills against the [agentskills.io](https://agentskills.io) spec: frontmatter, description quality, anti-patterns, cross-platform compatibility. Also audits AGENTS.md and CLAUDE.md for bloat.
-- **skill-creator** — Creates new skills through a draft-test-iterate workflow.
+| Skill | Purpose |
+|---|---|
+| 🧲 [skill-finder](.agents/skills/skill-finder/) | Finds 1184+ existing official skills from 40+ teams before creating new ones |
+| ✨ [skill-creator](.agents/skills/skill-creator/) | Creates new skills through a draft-test-iterate loop |
+| 🔍 [improving-skills](.agents/skills/improving-skills/) | Audits skills, AGENTS.md, and CLAUDE.md against the [agentskills.io](https://agentskills.io) spec |
 
-## Installing Skills 🛠️
+**Workflow**: `skill-finder` (check first) → `skill-creator` (if nothing fits) → `improving-skills` (audit the result)
+
+## Installing Skills 📥
 
 Drop a skill directory at one of these paths. Agents discover it automatically.
 
@@ -32,15 +37,16 @@ Drop a skill directory at one of these paths. Agents discover it automatically.
 | **User** (global, vendor-neutral) | `~/.agents/skills/<name>/` | All agentskills.io-compatible tools |
 | **User** (per-platform) | `~/.claude/skills/`, `~/.gemini/skills/` | Platform-specific alternatives |
 
-### Try this repo's skills
+### Try this repo's skills 🚀
 
 ```bash
 git clone https://github.com/laguagu/agents-best-practices.git
-cp -r agents-best-practices/.agents/skills/improving-skills ~/.agents/skills/
+cp -r agents-best-practices/.agents/skills/skill-finder ~/.agents/skills/
 cp -r agents-best-practices/.agents/skills/skill-creator ~/.agents/skills/
+cp -r agents-best-practices/.agents/skills/improving-skills ~/.agents/skills/
 ```
 
-Then invoke in any compatible agent — e.g. `/improving-skills <skill-path>` in Claude Code, or `$improving-skills` in Codex.
+Then invoke in any compatible agent — e.g. `/skill-finder <capability>` in Claude Code, or `$skill-finder` in Codex.
 
 ## Key Principles ✨
 
@@ -55,10 +61,12 @@ Then invoke in any compatible agent — e.g. `/improving-skills <skill-path>` in
 
 - [agentskills.io](https://agentskills.io) — Specification and best practices
 - [agents.md](https://agents.md) — AGENTS.md specification
+- [skills.sh](https://skills.sh/) — Skill discovery hub (leaderboard by install count)
+- [vercel-labs/skills](https://github.com/vercel-labs/skills) — `npx skills find` CLI and `find-skills` reference
 - [skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref) — Validation tool
-- [Claude Code — skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) | [Codex — skills](https://developers.openai.com/codex/skills) | [Gemini CLI — skills](https://geminicli.com/docs/cli/skills/)
-- [mgechev/skills-best-practices](https://github.com/mgechev/skills-best-practices) | [openai/skills](https://github.com/openai/skills)
+- Official platform docs: [Claude Code](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) | [Codex](https://developers.openai.com/codex/skills) | [Gemini CLI](https://geminicli.com/docs/cli/skills/)
+- Peer best-practice repos: [mgechev/skills-best-practices](https://github.com/mgechev/skills-best-practices) | [openai/skills](https://github.com/openai/skills)
 
-## License
+## License 📄
 
 Apache-2.0 — see [LICENSE](LICENSE)
