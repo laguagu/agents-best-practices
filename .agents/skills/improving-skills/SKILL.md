@@ -111,6 +111,10 @@ The description is the routing key — it determines whether the skill triggers.
 - [ ] No redundant general concepts (what PDFs are, how HTTP works)
 - [ ] Every piece of content justifies its token cost
 - [ ] Instructions in imperative form ("Run X", "Check Y")
+- [ ] No boilerplate code the agent can write from first principles — specify
+      the *contract* (what it must do) not a 30-line implementation
+- [ ] Framework-level adapters (AI SDK, LangChain, etc.) referenced before
+      showing custom implementations
 
 #### Progressive disclosure
 - [ ] Core instructions in SKILL.md, detailed reference in separate files
@@ -127,6 +131,12 @@ The description is the routing key — it determines whether the skill triggers.
 See [anti-patterns.md](anti-patterns.md) for full list.
 
 - [ ] No time-sensitive information (dates, versions that go stale)
+- [ ] No pinned version numbers in fast-moving domains (ML models, SDK versions,
+      pricing) — use categories with "examples (may change — verify)" labels
+- [ ] No operational/billing setup (payment methods, dashboard clicks, account
+      creation) — link to provider docs instead
+- [ ] No provider bias when multiple mainstream options exist ("best option"
+      claims, asymmetric SDK depth across providers)
 - [ ] Consistent terminology throughout
 - [ ] No Windows-style backslash paths
 - [ ] No unexplained magic constants

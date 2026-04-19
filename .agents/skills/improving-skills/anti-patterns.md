@@ -127,6 +127,109 @@ The v1 endpoint is no longer supported.
 </details>
 ```
 
+### Boilerplate code the agent can write from first principles
+**Problem:** Full TypeScript/Python examples that duplicate well-known patterns
+(AbortController + try/catch + fetch, FastAPI endpoints, basic React hooks,
+standard CRUD handlers). The agent can generate these — the skill wastes tokens
+and may drift from the framework's current idioms.
+```markdown
+<!-- Bad: 40-line fetch wrapper the agent could write from a 3-line spec -->
+async function callApi(url: string, body: unknown) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 4000);
+  try {
+    const resp = await fetch(url, { method: 'POST', ... });
+    // ...15 more lines...
+  } finally { clearTimeout(timer); }
+}
+```
+**Fix:** Specify the *contract* as bullet rules, not the implementation:
+```markdown
+<!-- Good: contract the agent implements -->
+Wrapper must:
+- Return null on any failure (missing key, HTTP error, timeout), never throw
+- Use AbortSignal.timeout(4000) to cap latency
+- Log failures at warn level with provider name
+```
+Keep code only when it teaches a non-obvious pattern (e.g., a framework's
+specific adapter API that the agent wouldn't discover from docs). Prefer
+referencing framework-level adapters (AI SDK, LangChain, etc.) before rolling
+custom implementations.
+
+### Versioned examples in fast-moving domains
+**Problem:** ML model names, API versions, and pricing rotate every 6-12
+months. Hard-coding `rerank-v4.0-pro` or `text-embedding-3-large` in a
+decision tree misleads the agent when the project has moved to a newer
+version — the agent may trust stale skill content over the current state of
+the code.
+```markdown
+<!-- Bad: pinned versions that will go stale -->
+| Priority | Recommendation |
+|----------|----------------|
+| Best quality | Cohere rerank-v4.0-pro |
+| Low latency | Voyage rerank-2.5-lite |
+```
+**Fix:** Use category labels with an explicit "verify" hint and point to
+provider docs for the current recommended model:
+```markdown
+<!-- Good: categories survive version churn -->
+| Category | Examples (may change — verify with provider docs) |
+|----------|---------------------------------------------------|
+| Highest quality | Cohere (pro tier), Zerank, Voyage (full) |
+| Lowest latency | Cohere (fast tier), Voyage (lite tier) |
+```
+Applies to: LLM model names, embedding model names, reranker versions,
+vector DB API versions, SDK release numbers.
+
+### Operational setup mixed with code guidance
+**Problem:** Callouts about billing, account sign-up, dashboard clicks, or
+payment methods are human/ops tasks. They bloat skills and don't help the
+agent write better code.
+```markdown
+<!-- Bad: human setup in a coding skill -->
+> **Payment gotcha**: Without a payment method on file, the API limits you
+> to 3 RPM (unusable in production). Add a card at dashboard.example.com/billing
+> to unlock the free tier.
+```
+**Fix:** Link to the provider's setup docs and stay focused on what the agent
+codes:
+```markdown
+<!-- Good: reference only -->
+Check provider docs for rate limits and billing:
+<https://docs.example.com/pricing>
+```
+Applies to: API key provisioning, billing/payment, account creation,
+dashboard configuration, infrastructure provisioning (these belong in
+runbooks or ops docs, not coding skills).
+
+### Provider bias when multiple exist
+**Problem:** Claims like "Cohere is the best option for production" or a
+detailed SDK section for one provider while others get a one-line mention
+skew the agent toward a specific vendor, even when the user's project
+already uses a different one.
+```markdown
+<!-- Bad: framing tilts the agent -->
+## Cohere Rerank API
+
+Best option for production — fast, accurate, simple.
+<50 lines of Cohere SDK code>
+
+## Voyage Rerank (alternative)
+See provider docs.
+```
+**Fix:** Cover all mainstream options symmetrically; the user picks based on
+their constraints, not the skill's preference:
+```markdown
+<!-- Good: symmetric coverage -->
+## Provider API shapes
+
+| Provider | Endpoint | Body (key fields) |
+|----------|----------|-------------------|
+| Cohere   | POST /v2/rerank | model, query, documents, top_n |
+| Voyage   | POST /v1/rerank | model, query, documents, top_k, truncation |
+| Zerank   | POST /v1/rerank | model, query, documents |
+```
+
 ### Inconsistent terminology
 **Problem:** Mixing terms for the same concept confuses the agent.
 ```markdown
