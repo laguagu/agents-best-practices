@@ -162,6 +162,12 @@ months. Hard-coding `rerank-v4.0-pro` or `text-embedding-3-large` in a
 decision tree misleads the agent when the project has moved to a newer
 version — the agent may trust stale skill content over the current state of
 the code.
+
+Before removing a table, check whether the domain actually rotates. Design
+system primitives (shadcn components, HTML elements, HTTP methods) are
+*stable* — a table mapping "need → primitive" doesn't decay, because those
+primitives don't churn. Apply this rule only to rotating domains: LLM/
+embedding/reranker models, vendor SDK versions, API versions, pricing.
 ```markdown
 <!-- Bad: pinned versions that will go stale -->
 | Priority | Recommendation |
@@ -180,6 +186,36 @@ provider docs for the current recommended model:
 ```
 Applies to: LLM model names, embedding model names, reranker versions,
 vector DB API versions, SDK release numbers.
+
+### Rotting or redundant doc links
+**Problem:** A "References" section with 5+ deep links that either duplicate
+what the agent already knows or pin to a specific API version that will
+rot. Shows up most often at the bottom of reference files as a dumping
+ground.
+```markdown
+<!-- Bad: deep links, version-pinned, and duplicate general knowledge -->
+## References
+- [Cohere Rerank API v2.3.1](https://docs.cohere.com/reference/rerank-v2-3-1)
+- [Voyage rerank-2.5 specification](https://docs.voyageai.com/models/rerank-2-5)
+- [OpenAI Chat Completions reference](https://platform.openai.com/docs/api-reference/chat)
+- [How HTTP works](https://developer.mozilla.org/en-US/docs/Web/HTTP)
+```
+**Fix:** Keep links only when they're **stable entry points** or
+**agent-targeted docs** that the agent can't easily discover. Prefer one
+curated line over a bulleted list:
+```markdown
+<!-- Good: stable entry points only -->
+For provider-specific details, see the vendor's docs page (they update it
+as models evolve). If the project provides a `llms.txt` or agent-readable
+manifest, prefer that over the human-facing docs.
+```
+Keep: `docs.provider.com` home pages (stable), `llms.txt` URLs (built for
+agents), search/listing pages that update themselves (e.g.
+`huggingface.co/models?other=reranker`), and integration tutorials the
+SDK doesn't already cover.
+Remove: version-pinned API references, pricing pages, links that say the
+same thing as the paragraph above them, links to general technical
+concepts the agent already knows.
 
 ### Operational setup mixed with code guidance
 **Problem:** Callouts about billing, account sign-up, dashboard clicks, or
