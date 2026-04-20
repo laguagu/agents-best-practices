@@ -187,6 +187,16 @@ provider docs for the current recommended model:
 Applies to: LLM model names, embedding model names, reranker versions,
 vector DB API versions, SDK release numbers.
 
+**Exception:** Naming a specific model is fine when it's shown as a
+configurable default — an env variable (`OPENAI_MODEL`), a config key, or
+a constant the user is expected to override. Make the configurability
+obvious so the agent treats the name as a starting point, not a contract.
+```markdown
+<!-- Good: named default, clearly overridable -->
+Default model: `gpt-5.4-nano` (override via `OPENAI_MODEL` env var).
+Check provider docs for the current recommended model.
+```
+
 ### Rotting or redundant doc links
 **Problem:** A "References" section with 5+ deep links that either duplicate
 what the agent already knows or pin to a specific API version that will
