@@ -201,6 +201,7 @@ follows the same principles regardless of platform.
 - [ ] Exists and is not empty
 - [ ] Under ~100 lines (move specialized content to skills if longer)
 - [ ] Concise — every line must pass: "Would removing this cause mistakes?" If not, cut it
+- [ ] No decorative project header or adapter boilerplate at the top — rules start on line 1
 - [ ] Contains only rules agents can't infer from code
 - [ ] No content that should be a skill (workflows, checklists, multi-step procedures)
 - [ ] Gotchas section present (highest-value content)
@@ -211,12 +212,12 @@ follows the same principles regardless of platform.
 - [ ] Emphasis (`IMPORTANT`, `YOU MUST`) used sparingly for critical rules
 
 ### Should include
-- Shell commands the agent can't guess
+- Bash commands the agent can't guess
 - Code style rules that differ from defaults
-- Testing instructions and preferred runners
+- Testing instructions and preferred test runners
 - Repo etiquette (branch naming, PR conventions)
 - Architecture decisions specific to the project
-- Dev environment quirks (required env vars)
+- Developer environment quirks (required env vars)
 - Common gotchas and non-obvious behaviors
 
 ### Should NOT include
@@ -227,6 +228,11 @@ follows the same principles regardless of platform.
 - Long explanations or tutorials
 - File-by-file descriptions of the codebase
 - Self-evident practices like "write clean code"
+
+### The one-line test
+For every line: *"Would removing this cause the agent to make mistakes?"* If not, cut it.
+If the agent ignores a rule, the file is probably too long — not the rule too weak.
+If the agent asks questions answered in the file, the phrasing is ambiguous.
 
 ### Platform-specific adapters
 - [ ] AGENTS.md is the canonical, vendor-neutral instruction file

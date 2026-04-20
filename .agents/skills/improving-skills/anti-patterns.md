@@ -323,6 +323,43 @@ which inflates revenue metrics by ~15%.
 <!-- Deployment, API integration, migration → .agents/skills/ -->
 ```
 
+### Decorative project header in AGENTS.md
+**Problem:** AGENTS.md starts with a project description or adapter boilerplate
+that consumes tokens but gives the agent no actionable rules.
+```markdown
+<!-- Bad — decorative, zero signal for the agent -->
+# AGENTS — MyProject
+
+Canonical repo instructions. Platform adapters such as `CLAUDE.md`,
+`GEMINI.md`, and `CODEX.md` should `@AGENTS.md` and add only
+platform-specific rules.
+```
+**Fix:** Remove the header entirely or replace with a one-line comment.
+Rules start on line 1:
+```markdown
+<!-- Good — rules start immediately -->
+## Core Rules
+- Package manager: `bun`. Run scripts with `bun run <name>`.
+```
+
+### Rules the agent can infer from code
+**Problem:** AGENTS.md lists rules the agent would discover by reading the
+codebase — transform conventions, file-naming patterns, ORM behavior. These
+duplicate code comments or type definitions and go stale when the code changes.
+```markdown
+<!-- Bad — agent can read lib/db.ts and discover this -->
+- `lib/db.ts` uses camel transform. Runtime DB rows are `camelCase`;
+  `lib/types.ts` input and upsert shapes stay `snake_case`.
+```
+**Fix:** Keep only rules the agent *can't* infer — non-obvious gotchas,
+environment quirks, and decisions not visible in the code:
+```markdown
+<!-- Good — not visible from code alone -->
+- Never commit `.env.local`; `.env.example` is the template.
+- Tests: `bun run test`, never `bun test` (different runner behavior).
+```
+Ask: "Would a careful reader of the code know this without being told?" If yes, cut it.
+
 ### Magic constants
 **Problem:** Unexplained numbers that nobody understands.
 ```python
