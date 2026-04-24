@@ -268,26 +268,14 @@ Instruction files load every session. Skills load on demand.
 - [ ] No interactive prompts in scripts
 - [ ] No platform-specific assumptions without `compatibility` field
 
-### Migration: client-specific → `.agents/`
-If skills exist in legacy client-specific paths (`~/.claude/skills/`, `~/.gemini/skills/`):
-1. Move to `~/.agents/skills/`
-2. Create symlinks/junctions from old locations if needed
-3. Verify skills load on each target platform
+### Making one skill set visible to every client
+Claude Code scans `~/.claude/skills/`, Gemini CLI scans `~/.gemini/skills/`, and `~/.agents/skills/` is the cross-platform convention. These are not "legacy" paths — each client needs its own. Pick one directory as the source of truth and junction (Windows) or symlink (macOS/Linux) the others to it so the same skills show up everywhere.
 
-## Description optimization
+## Description rewriting
 
-The description is the routing key. At startup agents load only `name` + `description`
-(~50-100 tokens each). Write in third person, imperative framing ("Use when..."),
-be pushy about trigger contexts, stay under 1024 characters.
+The description is the routing key — agents load only `name` + `description` at startup, so fix this first when a skill under-triggers. Third person, imperative ("Use when…"), pushy about trigger contexts, under 1024 characters.
 
-For descriptions scoring < 4/5, run an optimization loop:
-1. Create 20 eval queries (10 should-trigger, 10 should-not-trigger)
-2. Split 60% train / 40% validation — run each query 3 times (nondeterministic)
-3. Iterate on train set failures, revise description (up to 5 iterations)
-4. Select best by **validation** score to avoid overfitting
-
-Watch for overfitting: train improving but validation dropping, description
-growing toward 1024 chars, specific test keywords leaking into description.
+For full trigger evaluation (build a query set, grade with a validation split, iterate), use the `skill-creator` skill — that's where the benchmark tooling lives. This skill stops at identifying that a rewrite is needed.
 
 ## Gotchas
 
@@ -300,13 +288,4 @@ growing toward 1024 chars, specific test keywords leaking into description.
 - **Root `skills/` breaks discovery**: Moving project skills from `.agents/skills/` to a root `skills/` directory breaks Claude Code `/skills` discovery and Codex auto-discovery — both scan `.agents/skills/` (repo scope) directly. Root `skills/` only works as AGENTS.md `@include` context, not as a discoverable/invokable skill. Keep skills in `.agents/skills/<name>/`. To auto-load a skill every session, add `@.agents/skills/<name>/SKILL.md` to AGENTS.md.
 - **Verify behavioral claims against official docs/source before editing** — truncation behavior, deprecation status, experimental flags, and token budgets must come from specs, READMEs, or source code, not from inference or plausibility. When docs are silent on a behavior, preserve the original wording rather than invent it. A plausible-sounding claim that rots later is worse than no claim.
 
-## Iterating after audit
-
-1. Fix **critical issues** first (specification violations, broken triggers)
-2. Rewrite description if score < 4/5
-3. Address **recommended improvements** (anti-patterns, content quality)
-4. Re-run quick audit to verify fixes
-5. If description was rewritten, run trigger eval to confirm improvement
-
-The goal is reliable triggering, specification compliance, and clear value
-without wasting context tokens.
+The goal is reliable triggering, specification compliance, and clear value without wasting context tokens.
