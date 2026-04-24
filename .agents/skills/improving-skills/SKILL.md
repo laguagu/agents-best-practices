@@ -249,16 +249,15 @@ Instruction files load every session. Skills load on demand.
 
 ## Cross-agent compatibility review
 
-### Platform support (`~/.agents/skills/` standard)
+### Platform discovery paths
 
-| Platform | Repo scope | User scope |
-|----------|-----------|------------|
-| Claude Code | `.agents/skills/` | `~/.agents/skills/`, `~/.claude/skills/` |
-| OpenAI Codex | `.agents/skills/` | `~/.agents/skills/` |
-| Gemini CLI | `.agents/skills/` | `~/.agents/skills/`, `~/.gemini/skills/` |
-| VS Code Copilot | `.agents/skills/` | Per config |
-| Cursor | `.agents/skills/` | Per config |
-| JetBrains | `.agents/skills/` | Per IDE config |
+| Platform | User scope | Repo scope |
+|----------|------------|------------|
+| Claude Code | `~/.claude/skills/` | `.claude/skills/` |
+| OpenAI Codex | `~/.agents/skills/` | `.agents/skills/` (scanned from cwd up to repo root) |
+| Gemini CLI | `~/.gemini/skills/` or `~/.agents/skills/` (alias wins) | `.gemini/skills/` or `.agents/skills/` (alias wins) |
+
+Share one skill set across all three by keeping files in `~/.agents/skills/` — Codex and Gemini pick it up natively — and junction (Windows) or symlink (macOS/Linux) `~/.claude/skills/` → `~/.agents/skills/` so Claude Code sees the same files under its own path.
 
 ### Compatibility checklist
 - [ ] Forward slashes in all paths
@@ -267,9 +266,6 @@ Instruction files load every session. Skills load on demand.
 - [ ] Dependency versions pinned
 - [ ] No interactive prompts in scripts
 - [ ] No platform-specific assumptions without `compatibility` field
-
-### Making one skill set visible to every client
-Claude Code scans `~/.claude/skills/`, Gemini CLI scans `~/.gemini/skills/`, and `~/.agents/skills/` is the cross-platform convention. These are not "legacy" paths — each client needs its own. Pick one directory as the source of truth and junction (Windows) or symlink (macOS/Linux) the others to it so the same skills show up everywhere.
 
 ## Description rewriting
 
