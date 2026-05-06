@@ -390,7 +390,27 @@ MAX_RETRIES = 3
 
 ### SKILL.md exceeds 500 lines
 **Problem:** Too much content in the main file wastes context when loaded.
-**Fix:** Move detailed content to `references/` with clear pointers from SKILL.md.
+**Fix:** Move detailed content into sibling files next to SKILL.md
+(`anti-patterns.md`, `examples.md`, …) with clear pointers from SKILL.md.
+Only group under a `references/` subdirectory when there are many files
+*or* a `scripts/` folder already justifies subdirectory structure — for a
+handful of supporting docs, the flat layout is simpler and easier to scan.
+
+### Premature `references/` subdirectory
+**Problem:** Lone `references/anti-patterns.md` adds a directory level for
+no reason and makes the skill harder to scan at a glance.
+```
+my-skill/
+  SKILL.md
+  references/
+    anti-patterns.md   # only file in references/
+```
+**Fix:** Keep supporting files at the same level as SKILL.md:
+```
+my-skill/
+  SKILL.md
+  anti-patterns.md
+```
 
 ### Deeply nested references
 **Problem:** Agent partially reads files referenced from other references.
@@ -399,9 +419,9 @@ MAX_RETRIES = 3
 ```
 **Fix:** Keep everything one level deep from SKILL.md:
 ```markdown
-<!-- Good: SKILL.md → each reference directly -->
-See [references/advanced.md](references/advanced.md)
-See [references/api.md](references/api.md)
+<!-- Good: SKILL.md → each supporting file directly -->
+See [advanced.md](advanced.md)
+See [api.md](api.md)
 ```
 
 ### Large reference files without TOC
@@ -419,7 +439,7 @@ See reference\guide.md
 ```markdown
 <!-- Good -->
 Run scripts/helper.py
-See references/guide.md
+See guide.md
 ```
 
 ### Undiscoverable files

@@ -56,12 +56,14 @@ mechanical violations automatically. Focus manual review on description quality 
   - Third person, imperative framing
   - Describes what the skill does AND when to use it
   - Includes trigger keywords and non-obvious activation contexts
-- [ ] Optional fields (if present):
-  - `argument-hint` — shown in skill list, helps users provide input
+- [ ] Optional spec fields (if present):
   - `compatibility` — 1–500 chars, platform/environment requirements
-  - `allowed-tools` — space-separated pre-approved tools
+  - `allowed-tools` — space-separated pre-approved tools (Experimental)
   - `license` — reasonable format
-  - `metadata` — string key-value pairs
+  - `metadata` — arbitrary key-value pairs (put `version` here, not at root)
+- [ ] Client-specific extensions (not in agentskills.io spec — silently ignored by other clients):
+  - `argument-hint` — Claude Code: shown in skill list, helps users provide input
+  - `model` — Claude Code: pin a model (`opus | sonnet | haiku | inherit`)
 
 #### Structure validation
 - [ ] SKILL.md exists at skill root
@@ -69,7 +71,10 @@ mechanical violations automatically. Focus manual review on description quality 
 - [ ] File references use relative paths with forward slashes
 - [ ] All referenced files actually exist
 - [ ] No deeply nested reference chains (A → B → C)
-- [ ] `references/` is opt-in (not empty placeholder directories)
+- [ ] Flat layout preferred — supporting files (e.g. `anti-patterns.md`)
+      live next to SKILL.md by default
+- [ ] `references/` subdirectory used only when there are many files OR
+      a separate `scripts/` folder already justifies subdirectory structure
 
 ### Step 3: Description quality assessment
 
@@ -120,7 +125,8 @@ The description is the routing key — it determines whether the skill triggers.
 - [ ] Core instructions in SKILL.md, detailed reference in separate files
 - [ ] References clearly signposted with "when to read" guidance
 - [ ] Large reference files (>100 lines) have table of contents
-- [ ] `references/` used only when it genuinely reduces SKILL.md bloat
+- [ ] Flat layout by default (sibling files next to SKILL.md); only group
+      under `references/` when there are many files or scripts/ already exists
 
 #### Specificity calibration
 - [ ] High-freedom for flexible tasks (reviews, writing)
@@ -251,13 +257,16 @@ Instruction files load every session. Skills load on demand.
 
 ### Platform discovery paths
 
+The agentskills.io spec is **client-agnostic** — discovery paths are not part
+of the spec. The locations below are each client's own convention.
+
 | Platform | User scope | Repo scope |
 |----------|------------|------------|
 | Claude Code | `~/.claude/skills/` | `.claude/skills/` |
 | OpenAI Codex | `~/.agents/skills/` | `.agents/skills/` (scanned from cwd up to repo root) |
 | Gemini CLI | `~/.gemini/skills/` or `~/.agents/skills/` (alias wins) | `.gemini/skills/` or `.agents/skills/` (alias wins) |
 
-Share one skill set across all three by keeping files in `~/.agents/skills/` — Codex and Gemini pick it up natively — and junction (Windows) or symlink (macOS/Linux) `~/.claude/skills/` → `~/.agents/skills/` so Claude Code sees the same files under its own path.
+Share one skill set across all three by keeping files in `~/.agents/skills/` — Codex and Gemini pick it up natively — and junction (Windows) or symlink (macOS/Linux) `~/.claude/skills/` → `~/.agents/skills/` so Claude Code sees the same files under its own path. A working pattern: a small Python or PowerShell script that calls `mklink /J` (Windows) or `os.symlink` (POSIX) per skill directory; run once per machine setup so new skills under `~/.agents/skills/` are picked up by Claude Code through the junction.
 
 ### Compatibility checklist
 - [ ] Forward slashes in all paths
@@ -281,6 +290,8 @@ For full trigger evaluation (build a query set, grade with a validation split, i
 - Symlinks from `.claude/skills/` → `.agents/skills/` can cause duplicate discovery reports
 - Instruction file audit (AGENTS.md/CLAUDE.md) is a separate workflow from skill audit — don't combine them into the same report
 - `allowed-tools` is marked Experimental in the spec — don't add routinely, support varies across platforms
+- `version` is not a root-level frontmatter field — to version a skill, place it under `metadata: { version: "1.0" }`. Free-form root-level keys may be rejected by spec validators
+- `argument-hint` and `model` are Claude Code -specific extensions, not in agentskills.io spec — other clients silently ignore them. Safe to use, but don't rely on cross-client behavior
 - **Root `skills/` breaks discovery**: Moving project skills from `.agents/skills/` to a root `skills/` directory breaks Claude Code `/skills` discovery and Codex auto-discovery — both scan `.agents/skills/` (repo scope) directly. Root `skills/` only works as AGENTS.md `@include` context, not as a discoverable/invokable skill. Keep skills in `.agents/skills/<name>/`. To auto-load a skill every session, add `@.agents/skills/<name>/SKILL.md` to AGENTS.md.
 - **Verify behavioral claims against official docs/source before editing** — truncation behavior, deprecation status, experimental flags, and token budgets must come from specs, READMEs, or source code, not from inference or plausibility. When docs are silent on a behavior, preserve the original wording rather than invent it. A plausible-sounding claim that rots later is worse than no claim.
 
