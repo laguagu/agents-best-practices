@@ -11,7 +11,9 @@ description: >
   Activates on: "audit skills", "review my skill", "improve skill", "check skill
   quality", "skill audit", "fix skill description", "skill compliance", "check
   CLAUDE.md", "audit AGENTS.md", even if the user does not explicitly mention
-  "audit" or "best practices".
+  "audit" or "best practices". For creating new skills from scratch or running
+  trigger evals, use skill-creator instead — this skill only audits and improves
+  existing skills.
 ---
 
 # Improving Skills — Audit & Optimization Guide
@@ -22,9 +24,8 @@ Structured workflow for auditing and improving agent skills, instruction files
 ## Quick audit (5 minutes)
 
 1. **Read** the skill's SKILL.md and list all files in the directory
-2. **Check frontmatter** against the specification (Step 2 below)
-   Automated: run `skills-ref validate <skill-path>` if installed (reference
-   implementation for demonstration — [agentskills/skills-ref](https://github.com/agentskills/agentskills/tree/main/skills-ref)).
+2. **Check frontmatter** against the specification (Step 2 below, including
+   the `skills-ref validate` run)
 3. **Evaluate description** quality (trigger coverage, third person, specificity)
 4. **Scan content** for anti-patterns (see [anti-patterns.md](anti-patterns.md))
 5. **Generate** a prioritized improvement report (Step 5 template)
@@ -43,8 +44,10 @@ Record:
 
 ### Step 2: Specification compliance
 
-If `skills-ref` is installed, run `skills-ref validate <skill-path>` first to catch
-mechanical violations automatically. Focus manual review on description quality and content.
+If [`skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref)
+(the spec's reference implementation) is installed, run `skills-ref validate <skill-path>`
+first to catch mechanical violations automatically. Focus manual review on description
+quality and content.
 
 #### Frontmatter validation
 - [ ] `name` field:
@@ -75,6 +78,9 @@ mechanical violations automatically. Focus manual review on description quality 
       live next to SKILL.md by default
 - [ ] `references/` subdirectory used only when there are many files OR
       a separate `scripts/` folder already justifies subdirectory structure
+      (note: the spec lists `references/` as a standard optional directory —
+      both layouts are spec-valid; flat is a readability preference, not a
+      compliance issue)
 
 ### Step 3: Description quality assessment
 
@@ -84,7 +90,11 @@ The description is the routing key — it determines whether the skill triggers.
 - [ ] Specific keywords users would say
 - [ ] Non-obvious trigger contexts ("even if they don't mention X")
 - [ ] Concrete use cases, not abstract capabilities
-- [ ] Distinguishes this skill from adjacent/similar skills
+- [ ] Distinguishes this skill from adjacent/similar skills (when overlap
+      exists, name the sibling skill and the boundary explicitly)
+- [ ] Spot-check triggering: write 3–5 phrasings a user might realistically
+      say and confirm the description plausibly matches each (for rigorous
+      eval, hand off to `skill-creator`)
 
 #### Writing quality
 - [ ] Third person only ("Processes files" not "I process files")
@@ -278,7 +288,7 @@ Share one skill set across all three by keeping files in `~/.agents/skills/` —
 
 ## Description rewriting
 
-The description is the routing key — agents load only `name` + `description` at startup, so fix this first when a skill under-triggers. Third person, imperative ("Use when…"), pushy about trigger contexts, under 1024 characters.
+The description is the routing key — agents load only `name` + `description` at startup, so fix this first when a skill under-triggers (writing criteria in Step 3).
 
 For full trigger evaluation (build a query set, grade with a validation split, iterate), use the `skill-creator` skill — that's where the benchmark tooling lives. This skill stops at identifying that a rewrite is needed.
 

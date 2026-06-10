@@ -411,6 +411,9 @@ my-skill/
   SKILL.md
   anti-patterns.md
 ```
+Note: the agentskills.io spec lists `references/` as a standard optional
+directory, so both layouts are spec-valid — this is a readability
+preference, not a compliance issue.
 
 ### Deeply nested references
 **Problem:** Agent partially reads files referenced from other references.
