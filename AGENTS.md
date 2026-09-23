@@ -2,10 +2,6 @@
 
 This repository contains best practices for the `.agents/skills/` ecosystem.
 
-## Structure
-
-- `.agents/skills/` — Working skills (improving-skills, skill-creator, skill-finder)
-
 ## Conventions
 
 - Use forward slashes in all paths (`scripts/helper.py` not `scripts\helper.py`)
@@ -16,13 +12,11 @@ This repository contains best practices for the `.agents/skills/` ecosystem.
 
 ## Gotchas
 
-- This repo is a governance/best-practices resource — it practices what it preaches
 - Skills must be self-contained — no references to files outside the skill directory
 
 ## When Editing Skills
 
-1. Read the current SKILL.md before making changes
-2. Run the improving-skills audit after changes
-3. Verify description stays under 1024 characters
-4. Test trigger accuracy with at least 3 manual prompts
-5. Ensure all referenced files exist
+1. Run the improving-skills audit after changes
+2. Verify description stays under 1024 characters
+3. Test trigger accuracy with at least 3 manual prompts
+4. Ensure all referenced files exist
