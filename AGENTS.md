@@ -6,7 +6,7 @@ This repository contains best practices for the `.agents/skills/` ecosystem.
 
 - Use forward slashes in all paths (`scripts/helper.py` not `scripts\helper.py`)
 - Keep SKILL.md under 500 lines; use `references/` only when it reduces bloat
-- Pin dependency versions in scripts (`npx eslint@9.0.0`, `uv run ruff@0.8.0`)
+- Pin dependency versions in scripts (`npx eslint@9.0.0`, `uvx ruff@0.8.0`)
 - Write descriptions in third person with explicit trigger contexts
 - Every skill must pass: name matches directory, description under 1024 chars
 
